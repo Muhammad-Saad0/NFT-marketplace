@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "types": ["web3"],
+    "baseUrl": ".",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -15,7 +17,12 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@ui": ["components/ui"],
+      "@ui/*": ["components/ui/*"],
+      "@_types/*": ["types/*"],
+      "@providers": ["components/providers"],
+      "@providers/*": ["components/providers/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

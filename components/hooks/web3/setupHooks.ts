@@ -1,4 +1,4 @@
-import { web3Dependencies } from "@/types/hookTypes";
+import { Web3Dependencies } from "@/types/hookTypes";
 import {
   UseAccountHook,
   hookFactory as createAccountHook,
@@ -9,7 +9,7 @@ export type Web3Hooks = {
 };
 
 type SetpHooksFunction = {
-  (d: Partial<web3Dependencies>): Web3Hooks;
+  (d: Partial<Web3Dependencies>): Web3Hooks;
 };
 
 export const setupHooks: SetpHooksFunction = (deps) => {

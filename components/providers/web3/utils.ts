@@ -23,7 +23,6 @@ const contractAddressesData: ContractAddresses = contractAddresses;
 const nftMarketAbiData: any = nftMarketAbi;
 
 export type web3State = {
-  isloading: boolean;
   hooks: Web3Hooks;
 } & Nullable<Web3Dependencies>;
 
@@ -53,8 +52,8 @@ export function createDefaultWeb3State() {
     ethereum: null,
     contract: null,
     provider: null,
-    isloading: true,
-    hooks: setupHooks({}),
+    isLoading: true,
+    hooks: setupHooks({ isLoading: true }),
   };
 }
 
@@ -62,13 +61,13 @@ export function createWeb3State({
   ethereum,
   provider,
   contract,
-  isloading,
-}: Web3Dependencies & { isloading: boolean }): web3State {
+  isLoading,
+}: Web3Dependencies): web3State {
   return {
     ethereum,
     provider,
     contract,
-    isloading: isloading,
-    hooks: setupHooks({ ethereum, provider, contract }),
+    isLoading,
+    hooks: setupHooks({ ethereum, provider, contract, isLoading }),
   };
 }

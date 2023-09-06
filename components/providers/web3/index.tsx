@@ -27,19 +27,29 @@ const Web3Provider: React.FC<Web3ProviderProps> = ({ children }) => {
 
   useEffect(() => {
     async function web3init() {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum as any
-      );
-      const contract = await getContract("NftMarketAddresses", provider);
+      try {
+        const provider = new ethers.providers.Web3Provider(
+          window.ethereum as any
+        );
+        const contract = await getContract("NftMarketAddresses", provider);
 
-      setWeb3Api(
-        createWeb3State({
-          ethereum: window.ethereum,
-          provider,
-          contract,
-          isloading: false,
-        })
-      );
+        setWeb3Api(
+          createWeb3State({
+            ethereum: window.ethereum,
+            provider,
+            contract,
+            isLoading: false,
+          })
+        );
+      } catch (error: any) {
+        setWeb3Api((api) =>
+          createWeb3State({
+            ...(api as any),
+            isLoading: false,
+          })
+        );
+        console.log(error.message);
+      }
     }
 
     web3init();

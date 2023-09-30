@@ -1,12 +1,13 @@
+import { Nullable } from "@/components/providers/web3/utils";
 import { MetaMaskInpageProvider } from "@metamask/providers";
-import { Contract, providers } from "ethers";
+import { providers } from "ethers";
 import { SWRResponse } from "swr";
+import { NftMarketType } from "./nftMarketType";
 
 export type Web3Dependencies = {
   ethereum: MetaMaskInpageProvider;
-  contract: Contract;
+  contract: NftMarketType;
   provider: providers.Web3Provider;
-  isLoading: boolean;
 };
 
 export type CryptoHookHandler<D = any, R = any, P = any> = {
@@ -14,5 +15,7 @@ export type CryptoHookHandler<D = any, R = any, P = any> = {
 };
 
 export type CryptoHookFactory<D = any, R = any, P = any> = {
-  (deps: Partial<Web3Dependencies>): CryptoHookHandler<P, R, D>;
+  (
+    deps: Nullable<Web3Dependencies> & { isLoading: boolean }
+  ): CryptoHookHandler<P, R, D>;
 };

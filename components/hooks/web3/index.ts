@@ -1,4 +1,3 @@
-import { SWRResponse } from "swr";
 import { getHooks } from "@/components/providers/web3";
 
 export const useAccount = () => {
@@ -6,5 +5,29 @@ export const useAccount = () => {
   const swrResponse = useAccount();
   return {
     account: swrResponse,
+  };
+};
+
+export const useNetwork = () => {
+  const { useNetwork } = getHooks();
+  const swrResponse = useNetwork();
+  return {
+    network: swrResponse,
+  };
+};
+
+export const useListedNfts = () => {
+  const { useListedNfts } = getHooks();
+  const swrResponse = useListedNfts();
+  return {
+    nfts: swrResponse,
+  };
+};
+
+export const useOwnedNfts = () => {
+  const { useOwnedNfts } = getHooks();
+  const swrResponse = useOwnedNfts();
+  return {
+    ownedNfts: swrResponse,
   };
 };

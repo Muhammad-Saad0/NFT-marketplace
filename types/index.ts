@@ -9,3 +9,14 @@ export type nftMeta = {
   image: string;
   attributes: nftAttribute[];
 };
+
+export type NftCore = {
+  tokenId: number;
+  price: number;
+  creator: string;
+  isListed: boolean;
+};
+
+export type Nft = {
+  meta: nftMeta;
+} & NftCore;

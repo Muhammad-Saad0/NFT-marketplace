@@ -1,17 +1,18 @@
-import { nftMeta } from "@/types";
+import { Nft, nftMeta } from "@/types";
 import React from "react";
 
 type nftItemProps = {
-  item: nftMeta;
+  item: Nft;
+  buyNft: (tokenId: number, value: number) => Promise<void>;
 };
 
-const NftItem: React.FC<nftItemProps> = ({ item }) => {
+const NftItem: React.FC<nftItemProps> = ({ item, buyNft }) => {
   return (
     <>
       <div className="flex-shrink-0">
         <img
           className={`h-full w-full object-cover`}
-          src={item.image}
+          src={item.meta.image}
           alt="New NFT"
         />
       </div>
@@ -22,10 +23,10 @@ const NftItem: React.FC<nftItemProps> = ({ item }) => {
           </p>
           <div className="block mt-2">
             <p className="text-xl font-semibold text-gray-900">
-              {item.name}
+              {item.meta.name}
             </p>
             <p className="mt-3 mb-3 text-base text-gray-500">
-              {item.description}
+              {item.meta.description}
             </p>
           </div>
         </div>
@@ -37,12 +38,12 @@ const NftItem: React.FC<nftItemProps> = ({ item }) => {
               </dt>
               <dd className="order-1 text-xl font-extrabold text-indigo-600">
                 <div className="flex justify-center items-center">
-                  100
+                  {item.price}
                   <img className="h-6" src="/images/small-eth.webp" />
                 </div>
               </dd>
             </div>
-            {item.attributes.map((attribute) => {
+            {item.meta.attributes.map((attribute) => {
               return (
                 <div
                   key={attribute.trait_type}
@@ -61,6 +62,9 @@ const NftItem: React.FC<nftItemProps> = ({ item }) => {
         </div>
         <div>
           <button
+            onClick={() => {
+              buyNft(item.tokenId, item.price);
+            }}
             type="button"
             className="disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none disabled:cursor-not-allowed mr-2 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

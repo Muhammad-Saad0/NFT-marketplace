@@ -27,6 +27,7 @@ export const hookFactory: AccountHookFactory =
       },
       {
         revalidateOnFocus: false,
+        shouldRetryOnError: false,
       }
     );
 
@@ -40,6 +41,7 @@ export const hookFactory: AccountHookFactory =
 
     const handleAccountsChanged = (...args: unknown[]) => {
       const accounts = args[0] as string[];
+      window.location.reload();
       if (accounts.length === 0) {
         console.error("Please Connect Metamask account");
       } else if (accounts[0] !== data) {
@@ -58,7 +60,7 @@ export const hookFactory: AccountHookFactory =
 
     return {
       ...swr,
-      isLoading: isLoading || isValidating,
+      isLoading: isLoading,
       isInstalled: ethereum?.isMetaMask || false,
       isValidating,
       data,

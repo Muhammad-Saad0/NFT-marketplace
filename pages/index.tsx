@@ -2,8 +2,6 @@
 
 import type { NextPage } from "next";
 import { BaseLayout, NftList } from "@/components";
-import nfts from "../content/meta.json";
-import { nftMeta } from "@/types";
 
 const Home: NextPage = () => {
   return (
@@ -18,10 +16,10 @@ const Home: NextPage = () => {
               Amazing Creatures NFTs
             </h2>
             <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-              Mint a NFT to get unlimited ownership forever!
+              Mint an NFT to get unlimited ownership forever!
             </p>
           </div>
-          <NftList nfts={nfts as nftMeta[]} />
+          <NftList />
         </div>
       </div>
     </BaseLayout>

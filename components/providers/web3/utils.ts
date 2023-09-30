@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-type Nullable<T> = {
+export type Nullable<T> = {
   [P in keyof T]: T[P] | null;
 };
 
@@ -22,29 +22,31 @@ type ContractAddresses = {
 const contractAddressesData: ContractAddresses = contractAddresses;
 const nftMarketAbiData: any = nftMarketAbi;
 
-export type web3State = {
+export type Web3State = Nullable<Web3Dependencies> & {
   hooks: Web3Hooks;
-} & Nullable<Web3Dependencies>;
+  isLoading: boolean;
+};
 
-export const getContract = (
+export const getContract = async (
   name: string,
   provider: providers.Web3Provider
-): Promise<Contract> => {
-  const chainId = process.env.NEXT_PUBLIC_CHAIN_ID;
+): Promise<Contract | null> => {
+  const { chainId } = await provider.getNetwork();
   if (!chainId) {
     return Promise.reject("chain Id not defined");
   }
 
-  const addressesArray = contractAddressesData[chainId][name];
-  const contractAddress = addressesArray[0];
-
-  const contract = new ethers.Contract(
-    contractAddress,
-    nftMarketAbiData,
-    provider
-  );
-
-  return Promise.resolve(contract);
+  if (contractAddressesData[chainId]) {
+    const addressesArray = contractAddressesData[chainId][name];
+    const contractAddress = addressesArray[0];
+    const contract = new ethers.Contract(
+      contractAddress,
+      nftMarketAbiData,
+      provider
+    );
+    return Promise.resolve(contract);
+  }
+  return Promise.resolve(null);
 };
 
 export function createDefaultWeb3State() {
@@ -53,7 +55,12 @@ export function createDefaultWeb3State() {
     contract: null,
     provider: null,
     isLoading: true,
-    hooks: setupHooks({ isLoading: true }),
+    hooks: setupHooks({
+      ethereum: null,
+      provider: null,
+      contract: null,
+      isLoading: true,
+    }),
   };
 }
 
@@ -62,7 +69,7 @@ export function createWeb3State({
   provider,
   contract,
   isLoading,
-}: Web3Dependencies): web3State {
+}: Nullable<Web3Dependencies> & { isLoading: boolean }): Web3State {
   return {
     ethereum,
     provider,
